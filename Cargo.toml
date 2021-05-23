@@ -23,3 +23,19 @@ serde = "1.0.124"
 actix-rt = "2"
 reqwest = "0.11"
 tokio = "1"
+
+[dependencies.sqlx]
+version = "0.5.1"
+default-features = false
+features = [
+    # tells sqlx to use the actix runtime for its futures & rustls as TLS backend
+    "runtime-actix-rustls",
+    # gives access to sqlx::query! and sqlx::query_as!
+    "macros",
+    # unlocks Postgres-specific functionality
+    "postgres",
+    # Maps SQL UUIDs to the Uuid type from the uuid crate
+    "uuid",
+    # Access to the functions used under the hood by sqlx-cli to manage migrations
+    "migrate",
+]
