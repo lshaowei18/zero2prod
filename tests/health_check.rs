@@ -8,7 +8,7 @@ const FORM_HEADER: &str = "application/x-www-form-urlencoded";
 
 #[actix_rt::test]
 async fn health_check_works() {
-    let address = spawn_app().await;
+    let address = spawn_app();
 
     // `reqwest` to perform HTTP requests against our application
     let client = reqwest::Client::new();
@@ -26,7 +26,7 @@ async fn health_check_works() {
 #[actix_rt::test]
 async fn subscribe_returns_a_200_for_valid_form_data() {
     // Arrange
-    let app_address = spawn_app().await;
+    let app_address = spawn_app();
     let client = reqwest::Client::new();
     let body = "name=le%20guin&email=ursula_le_guin%40gmail.com";
 
@@ -46,7 +46,7 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
 #[actix_rt::test]
 async fn subscribe_returns_a_400_when_data_is_missing() {
     // Arrange
-    let app_address = spawn_app().await;
+    let app_address = spawn_app();
     let client = reqwest::Client::new();
     let test_cases = vec![
         ("name=le%20guin", "missing the email"),
@@ -74,13 +74,12 @@ async fn subscribe_returns_a_400_when_data_is_missing() {
     }
 }
 
-async fn spawn_app() -> String {
+fn spawn_app() -> String {
     // Port 0 is a special-case at the OS level; it triggers an OS
     // scan for an available port which will then be bound to the application
     let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
     let port = listener.local_addr().unwrap().port();
     let server = zero2prod::startup::run(listener)
-        .await
         .expect("Failed to bind address");
 
     // Launch the server as a background task

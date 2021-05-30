@@ -10,5 +10,5 @@ async fn main() -> std::io::Result<()> {
     // Bubble up the io::Error if we failed to bind the address
     // Otherwise call .await on our Server
     let listener = TcpListener::bind(address)?;
-    run(listener).await?.await
+    run(listener)?.await
 }
