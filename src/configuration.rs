@@ -16,7 +16,6 @@ pub struct DatabaseSettings{
 pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     // init configuration reader
     let mut settings = config::Config::default();
-    println!("{:?}",settings);
 
     /*
     Add configuration values from a file named `configuration`.
@@ -30,4 +29,13 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
 
     // Try to convert the configuration values to our Settings type
     settings.try_into()
+}
+
+impl DatabaseSettings {
+    pub fn connection_string(&self) -> String {
+        format!(
+            "postgres://{}:{}@{}:{}/{}",
+            self.username, self.password, self.host, self.port, self.database_name
+        )
+    }
 }
