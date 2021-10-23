@@ -1,3 +1,6 @@
+## Run code
+`cargo run`, `cargo watch -x run` for automatic recompilation.
+
 ## Clippy
 You can mute a warning for the affected code block with  `#[allow(clippy::lint_name)]` and `#![allow(clippy::lint_name)]` for a project level directive.
 
